@@ -1,7 +1,14 @@
-import React from 'react'
+import { useParams } from "react-router-dom"
+
+
 
 export default function Repositorio() {
+  const {repositorio} = useParams()
+
   return (
-    <div>Repositorios</div>
+    <div style={{color: 'white'}}>
+
+      <h1>{repositorio}</h1>
+    </div>
   )
 }
