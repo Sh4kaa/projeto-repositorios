@@ -74,12 +74,12 @@ export default function Main() {
         <FaGithub size={25} />
         Meus repositórios
       </h1>
-      <Form onSubmit={handleSubmit} error={alert}>
+      <Form onSubmit={handleSubmit} error={alert ? String(alert): ''}>
         <input
           type="text"
           value={newRepo}
           onChange={handleInputChange}
-          placeholder="ex: facebook/react"
+          placeholder="Adicionar Repositórios ex: facebook/react"
         />
 
         <SubmitButton loading={loading ? 1 : 0}>
