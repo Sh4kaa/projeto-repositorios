@@ -3,11 +3,13 @@ import api from "../../services/api";
 import { useParams } from "react-router-dom";
 import { Container, Owner, Loading, BackButton, IssuesList } from "./style";
 import { FaArrowLeft } from "react-icons/fa";
+import { PageActions } from "./style";
 
 export default function Repositorio() {
   const [repos, setRepo] = useState({});
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   const { repositorio } = useParams();
   useEffect(() => {
@@ -30,6 +32,28 @@ export default function Repositorio() {
 
     load();
   }, [repositorio]);
+
+  useEffect(() => {
+    async function loadIssue() {
+      // const nomeRepo = decodeURIComponent(repositorio);
+
+      const response = await api.get(`/repos/${repositorio}/issues`, {
+        params: {
+          state: "open",
+          page,
+          per_page: 5,
+        },
+      });
+
+      setIssues(response.data);
+    }
+
+    loadIssue();
+  }, [page, repositorio]);
+
+  function handlePage(action) {
+    setPage(action === "back" ? page - 1 : page + 1);
+  }
 
   if (loading)
     return (
@@ -67,6 +91,12 @@ export default function Repositorio() {
           </li>
         ))}
       </IssuesList>
+      <PageActions>
+        <button onClick={() => handlePage("back")} disabled={page < 2}>
+          Voltar
+        </button>
+        <button onClick={() => handlePage("next")}>Seguinte</button>
+      </PageActions>
     </Container>
   );
 }
