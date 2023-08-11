@@ -36,10 +36,8 @@ export default function Repositorio() {
           },
         }),
       ]);
-
       setIssues(issuesData.data);
       setRepo(repositorioData.data);
-
       setLoading(false);
     }
 
